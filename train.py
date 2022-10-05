@@ -27,7 +27,7 @@ resnet_model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding
 resnet_model = resnet_model.to(device)
 
 densenet_model = densenet161(pretrained=True)
-densenet_model.fc = nn.Linear(512,50)
+#densenet_model.fc = nn.Linear(512,50)
 #densenet_model.conv1 = nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 densenet_model = densenet_model.to(device)
 
@@ -103,9 +103,9 @@ def graph(train_losses, valid_losses, filepath=None):
 	plt.savefig(filepath)
 	plt.close()
 
-resnet_model, train_losses, valid_losses = train(resnet_model, loss_fn, train_loader, valid_loader, epochs, optimizer, resnet_train_losses, resnet_valid_losses, lr_decay)
+densenet_model, train_losses, valid_losses = train(densenet_model, loss_fn, train_loader, valid_loader, epochs, optimizer, resnet_train_losses, resnet_valid_losses, lr_decay)
 
 with open('esc50resnet.pth','wb') as f:
-  torch.save(resnet_model, f) # save model
+  torch.save(densenet_model, f) # save model
 
-graph(train_losses, valid_losses, 'resnet34_loss')
+graph(train_losses, valid_losses, 'densenet161_loss')
