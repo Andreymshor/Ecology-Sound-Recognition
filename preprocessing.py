@@ -7,14 +7,14 @@ import librosa
 import warnings
 warnings.filterwarnings("ignore")
 
-def get_melspectrogram_db(file_path, sr=None, n_fft=2048, hop_length=512, n_mels=128, fmin=20, fmax=8300, top_db=80):
+def get_melspectrogram_db(file_path, sr=44100, n_fft=4096, hop_length=441, n_mels=224, win_length=1764, fmin=20, fmax=20000, top_db=80):
   wav,sr = librosa.load(file_path,sr=sr)
   if wav.shape[0]<5*sr:
     wav=np.pad(wav,int(np.ceil((5*sr-wav.shape[0])/2)),mode='reflect')
   else:
     wav=wav[:5*sr]
   spec=librosa.feature.melspectrogram(wav, sr=sr, n_fft=n_fft,
-              hop_length=hop_length,n_mels=n_mels,fmin=fmin,fmax=fmax)
+              hop_length=hop_length,n_mels=n_mels,win_length=1764, fmin=fmin,fmax=fmax)
   spec_db=librosa.power_to_db(spec,top_db=top_db)
   return spec_db
 
